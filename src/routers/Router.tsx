@@ -1,4 +1,5 @@
 import App from "@/App";
+import Books from "@/pages/Book/Books";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -8,11 +9,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Main Layout</h1>,
+        Component: Books,
       },
       {
         path: "/books",
-        element: <h1>Books Layout</h1>,
+        Component: Books,
       },
       {
         path: "/create-book",
