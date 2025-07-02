@@ -1,5 +1,6 @@
 import App from "@/App";
 import Books from "@/pages/Book/Books";
+import CreateBook from "@/pages/Book/CreateBook";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/create-book",
-        element: <h1>Create Book Layout</h1>,
+        Component: CreateBook,
       },
       {
         path: "/books/:id",

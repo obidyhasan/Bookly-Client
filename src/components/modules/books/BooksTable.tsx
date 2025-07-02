@@ -18,16 +18,18 @@ import Loading from "@/components/layouts/Loading";
 import type { IBook } from "@/types/book";
 
 const BooksTable = () => {
-  const { data, isLoading } = useGetBooksQuery(undefined);
-
-  console.log(data);
+  const { data, isLoading } = useGetBooksQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
 
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <div className="rounded-md ">
+    <div className="mb-10">
       <Table>
         <TableHeader>
           <TableRow>
@@ -55,8 +57,15 @@ const BooksTable = () => {
                     <button className="text-xl">⋯</button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem className="text-yellow-500">
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-green-500">
+                      Borrow
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-500">
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
