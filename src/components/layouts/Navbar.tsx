@@ -24,6 +24,9 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2" align="start">
                 <DropdownMenuItem>
+                  <Link to={"/"}>Home</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
                   <Link to={"/books"}>All Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
