@@ -31,7 +31,11 @@ import { useNavigate, useParams } from "react-router";
 
 const EditBook = () => {
   const { id } = useParams();
-  const { data, isLoading, isError, error } = useGetSingleBookQuery(id);
+  const { data, isLoading, isError, error } = useGetSingleBookQuery(id, {
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
   const [updateBook, { isLoading: updateIsLoading }] = useUpdateBookMutation();
 
   const form = useForm();
@@ -61,6 +65,9 @@ const EditBook = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
     if (parseInt(newData.copies) === 0) {
       newData.available = false;
+    }
+    if (parseInt(newData.copies) > 0) {
+      newData.available = true;
     }
 
     const bookData = {

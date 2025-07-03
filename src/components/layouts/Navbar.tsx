@@ -12,7 +12,7 @@ import { ModeToggle } from "../mode-toggle";
 
 const Navbar = () => {
   const navLinkStyle = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "text-red-500 text-sm font-semibold" : "text-gray-600 text-sm";
+    isActive ? "text-red-500 text-sm font-semibold" : "text-sm";
   return (
     <div className="border-b sticky top-0 z-50 bg-[var(--color-background)]">
       <div className="max-w-6xl mx-auto p-4 flex items-center justify-between">

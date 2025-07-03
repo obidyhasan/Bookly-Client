@@ -2,7 +2,7 @@ import type { IBook } from "@/types/book";
 import bookImg from "./../../../assets/book.png";
 import { Button } from "@/components/ui/button";
 import BorrowModal from "../borrows/BorrowModal";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import toast from "react-hot-toast";
 import Loading from "@/components/layouts/Loading";
@@ -14,9 +14,9 @@ interface BookCardProps {
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
   const [deleteBook, { isLoading }] = useDeleteBookMutation();
-
+  const navigate = useNavigate();
   if (isLoading) {
-    <Loading />;
+    return <Loading />;
   }
 
   function handleDeleteBook(id: string) {
@@ -24,9 +24,13 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
     toast.success("Book Deleted Successfully");
   }
 
+  const handleNavigate = () => {
+    navigate(`/books/${book._id}`);
+  };
+
   return (
     <div className="border p-3 rounded-lg flex flex-col gap-3 justify-between">
-      <div className="space-y-3">
+      <div onClick={handleNavigate} className="space-y-3 cursor-pointer">
         <img className="max-w-[100px] mx-auto mt-2" src={bookImg} alt="" />
         <div className="mt-4">
           <h1 className="text-center font-semibold ">{book.title}</h1>

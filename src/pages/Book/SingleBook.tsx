@@ -1,7 +1,7 @@
 import Loading from "@/components/layouts/Loading";
 import { useGetSingleBookQuery } from "@/redux/api/bookApi";
 import { useParams } from "react-router";
-import bookImg from "./../../assets/book_img.png";
+import bookImg from "./../../assets/book.png";
 import { Badge } from "@/components/ui/badge";
 
 const SingleBook = () => {
@@ -14,8 +14,8 @@ const SingleBook = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 my-10 flex flex-col md:flex-row gap-5">
-      <div className="w-full md:w-1/3 border p-5 rounded-2xl">
-        <img src={bookImg} alt="" />
+      <div className="w-full h-min md:w-1/3 border p-5 rounded-2xl">
+        <img className="w-2/3 mx-auto" src={bookImg} alt="" />
       </div>
       <div className="w-full md:w-2/3 flex flex-col gap-3 items-start justify-center">
         <Badge>{data?.data?.genre}</Badge>
