@@ -5,6 +5,7 @@ export const bookApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://l2-assignment-03.vercel.app/api",
   }),
+  tagTypes: ["book"],
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => "/books",
