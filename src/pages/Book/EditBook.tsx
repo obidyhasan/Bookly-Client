@@ -23,6 +23,7 @@ import {
   useGetSingleBookQuery,
   useUpdateBookMutation,
 } from "@/redux/api/bookApi";
+import type { ErrorResponse } from "@/types/Error";
 import { Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
@@ -40,9 +41,15 @@ const EditBook = () => {
 
   const form = useForm();
   const navigate = useNavigate();
-
-  if (isError) {
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
     console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
   }
 
   useEffect(() => {

@@ -20,6 +20,7 @@ import DeleteAlertDialog from "./DeleteAlertDialog";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import BorrowModal from "../borrows/BorrowModal";
+import type { ErrorResponse } from "@/types/Error";
 
 const BooksTable = () => {
   const navigate = useNavigate();
@@ -29,10 +30,22 @@ const BooksTable = () => {
     refetchOnReconnect: true,
   });
 
-  const [deleteBook, { isLoading: deleteLoading }] = useDeleteBookMutation();
+  const [deleteBook, { isLoading: deleteLoading, isError, error }] =
+    useDeleteBookMutation();
 
   if (isLoading || deleteLoading) {
     return <Loading />;
+  }
+
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
+    console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
   }
 
   function handleDeleteBook(id: string) {

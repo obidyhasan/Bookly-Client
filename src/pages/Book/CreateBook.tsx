@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateBookMutation } from "@/redux/api/bookApi";
+import type { ErrorResponse } from "@/types/Error";
 import { Loader2Icon } from "lucide-react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -29,8 +30,15 @@ const CreateBook = () => {
   const form = useForm();
   const [createTask, { isLoading, isError, error }] = useCreateBookMutation();
 
-  if (isError) {
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
     console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {

@@ -7,16 +7,28 @@ import DeleteAlertDialog from "./DeleteAlertDialog";
 import toast from "react-hot-toast";
 import Loading from "@/components/layouts/Loading";
 import { useDeleteBookMutation } from "@/redux/api/bookApi";
+import type { ErrorResponse } from "@/types/Error";
 
 interface BookCardProps {
   book: IBook;
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
-  const [deleteBook, { isLoading }] = useDeleteBookMutation();
+  const [deleteBook, { isLoading, isError, error }] = useDeleteBookMutation();
   const navigate = useNavigate();
   if (isLoading) {
     return <Loading />;
+  }
+
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
+    console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
   }
 
   function handleDeleteBook(id: string) {

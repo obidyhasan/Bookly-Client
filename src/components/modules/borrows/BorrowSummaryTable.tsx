@@ -9,13 +9,26 @@ import {
 } from "@/components/ui/table";
 import { useGetBorrowQuery } from "@/redux/api/borrowApi";
 import type { IBorrowSummary } from "@/types/borrowSummary";
+import type { ErrorResponse } from "@/types/Error";
+import toast from "react-hot-toast";
 
 const BorrowSummaryTable = () => {
-  const { data, isLoading } = useGetBorrowQuery(undefined, {
+  const { data, isLoading, error, isError } = useGetBorrowQuery(undefined, {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
+
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
+    console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
+  }
 
   if (isLoading) {
     return <Loading />;

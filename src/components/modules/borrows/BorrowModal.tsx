@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useCreateBorrowMutation } from "@/redux/api/borrowApi";
+import type { ErrorResponse } from "@/types/Error";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2Icon } from "lucide-react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
@@ -39,8 +40,19 @@ interface PropsType {
 const BorrowModal = ({ id, copies }: PropsType) => {
   const form = useForm();
   const navigate = useNavigate();
-  const [createBorrow, { isLoading }] = useCreateBorrowMutation();
+  const [createBorrow, { isLoading, isError, error }] =
+    useCreateBorrowMutation();
 
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
+    console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
+  }
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const borrowData = {
       ...data,

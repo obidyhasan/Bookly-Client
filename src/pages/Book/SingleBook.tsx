@@ -3,13 +3,26 @@ import { useGetSingleBookQuery } from "@/redux/api/bookApi";
 import { useParams } from "react-router";
 import bookImg from "./../../assets/book.png";
 import { Badge } from "@/components/ui/badge";
+import type { ErrorResponse } from "@/types/Error";
+import toast from "react-hot-toast";
 
 const SingleBook = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetSingleBookQuery(id);
+  const { data, isLoading, isError, error } = useGetSingleBookQuery(id);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  // Check and handle the error
+  if (isError && error) {
+    const err = error as unknown as ErrorResponse;
+    console.log(error);
+
+    // Show the error message
+    toast.error(
+      err.data?.message || err.data?.error?.name || "Something went wrong"
+    );
   }
 
   return (
