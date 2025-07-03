@@ -24,16 +24,24 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-48 mt-2" align="start">
                 <DropdownMenuItem>
-                  <Link to={"/"}>Home</Link>
+                  <NavLink className={navLinkStyle} to={"/"}>
+                    Home
+                  </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link to={"/books"}>All Books</Link>
+                  <NavLink className={navLinkStyle} to={"/books"}>
+                    All Books
+                  </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link to={"/create-book"}>Add Book</Link>
+                  <NavLink className={navLinkStyle} to={"/create-book"}>
+                    Add Book
+                  </NavLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link to={"/borrow-summary"}>Borrow Summary</Link>
+                  <NavLink className={navLinkStyle} to={"/borrow-summary"}>
+                    Borrow Summary
+                  </NavLink>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
