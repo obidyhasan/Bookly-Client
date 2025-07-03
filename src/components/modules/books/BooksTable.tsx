@@ -17,9 +17,10 @@ import Loading from "@/components/layouts/Loading";
 import type { IBook } from "@/types/book";
 import { Button } from "@/components/ui/button";
 import DeleteAlertDialog from "./DeleteAlertDialog";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const BooksTable = () => {
+  const navigate = useNavigate();
   const { data, isLoading } = useGetBooksQuery(undefined, {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
@@ -48,7 +49,11 @@ const BooksTable = () => {
         </TableHeader>
         <TableBody>
           {data?.data.map((book: IBook, index: number) => (
-            <TableRow key={index}>
+            <TableRow
+              className="cursor-pointer"
+              onClick={() => navigate(`/books/${book._id}`)}
+              key={index}
+            >
               <TableCell>{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.genre}</TableCell>

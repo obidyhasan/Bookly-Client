@@ -2,6 +2,7 @@ import App from "@/App";
 import Books from "@/pages/Book/Books";
 import CreateBook from "@/pages/Book/CreateBook";
 import EditBook from "@/pages/Book/EditBook";
+import SingleBook from "@/pages/Book/SingleBook";
 import { createBrowserRouter } from "react-router";
 
 const router = createBrowserRouter([
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/books/:id",
-        element: <h1>Get Single Book Layout</h1>,
+        Component: SingleBook,
       },
       {
         path: "/edit-book/:id",
