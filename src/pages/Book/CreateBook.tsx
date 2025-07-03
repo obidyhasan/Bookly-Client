@@ -21,13 +21,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { useCreateBookMutation } from "@/redux/api/bookApi";
 import { Loader2Icon } from "lucide-react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
 const CreateBook = () => {
-  const form = useForm();
-  const [createTask, { isLoading }] = useCreateBookMutation();
-
   const navigate = useNavigate();
+  const form = useForm();
+  const [createTask, { isLoading, isError, error }] = useCreateBookMutation();
+
+  if (isError) {
+    console.log(error);
+  }
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const bookData = {
@@ -39,6 +43,7 @@ const CreateBook = () => {
     await createTask(bookData).unwrap();
     navigate("/books", { replace: true });
     form.reset();
+    toast.success("Book Create Successfully");
   };
 
   return (

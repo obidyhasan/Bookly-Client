@@ -26,15 +26,20 @@ import {
 import { Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router";
 
 const EditBook = () => {
   const { id } = useParams();
-  const { data, isLoading } = useGetSingleBookQuery(id);
+  const { data, isLoading, isError, error } = useGetSingleBookQuery(id);
   const [updateBook, { isLoading: updateIsLoading }] = useUpdateBookMutation();
 
   const form = useForm();
   const navigate = useNavigate();
+
+  if (isError) {
+    console.log(error);
+  }
 
   useEffect(() => {
     if (data?.data) {
@@ -62,6 +67,7 @@ const EditBook = () => {
 
     await updateBook(bookData).unwrap();
     navigate("/books", { replace: true });
+    toast.success("Book Edited Successfully");
   };
 
   return (

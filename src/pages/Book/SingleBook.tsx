@@ -13,7 +13,7 @@ const SingleBook = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 my-10 flex gap-5">
+    <div className="max-w-6xl mx-auto px-4 my-10 flex flex-col md:flex-row gap-5">
       <div className="w-full md:w-1/3 border p-5 rounded-2xl">
         <img src={bookImg} alt="" />
       </div>

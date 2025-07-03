@@ -18,6 +18,7 @@ import type { IBook } from "@/types/book";
 import { Button } from "@/components/ui/button";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import { Link, useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const BooksTable = () => {
   const navigate = useNavigate();
@@ -27,10 +28,15 @@ const BooksTable = () => {
     refetchOnReconnect: true,
   });
 
-  const [deleteBook] = useDeleteBookMutation();
+  const [deleteBook, { isLoading: deleteLoading }] = useDeleteBookMutation();
 
-  if (isLoading) {
+  if (isLoading || deleteLoading) {
     return <Loading />;
+  }
+
+  function handleDeleteBook(id: string) {
+    deleteBook(id);
+    toast.success("Book Deleted Successfully");
   }
 
   return (
@@ -49,17 +55,25 @@ const BooksTable = () => {
         </TableHeader>
         <TableBody>
           {data?.data.map((book: IBook, index: number) => (
-            <TableRow
-              className="cursor-pointer"
-              onClick={() => navigate(`/books/${book._id}`)}
-              key={index}
-            >
-              <TableCell>{book.title}</TableCell>
-              <TableCell>{book.author}</TableCell>
-              <TableCell>{book.genre}</TableCell>
-              <TableCell>{book.isbn}</TableCell>
-              <TableCell>{book.copies}</TableCell>
-              <TableCell>{book.available ? "Yes" : "No"}</TableCell>
+            <TableRow className="cursor-pointer" key={index}>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.title}
+              </TableCell>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.author}
+              </TableCell>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.genre}
+              </TableCell>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.isbn}
+              </TableCell>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.copies}
+              </TableCell>
+              <TableCell onClick={() => navigate(`/books/${book._id}`)}>
+                {book.available ? "Yes" : "No"}
+              </TableCell>
               <TableCell className="space-x-2 text-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -71,7 +85,7 @@ const BooksTable = () => {
                       <Button className="w-full bg-yellow-400">Edit</Button>
                     </Link>
                     <DeleteAlertDialog
-                      onConfirm={() => deleteBook(book._id)}
+                      onConfirm={() => handleDeleteBook(book._id)}
                       trigger={
                         <Button className="w-full bg-red-400">Delete</Button>
                       }
