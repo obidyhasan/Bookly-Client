@@ -59,6 +59,10 @@ const EditBook = () => {
   }
 
   const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
+    if (parseInt(newData.copies) === 0) {
+      newData.available = false;
+    }
+
     const bookData = {
       ...newData,
       _id: id,
@@ -155,8 +159,8 @@ const EditBook = () => {
                 rules={{
                   required: "Copies is required",
                   min: {
-                    value: 1,
-                    message: "Copies must be at least 1",
+                    value: 0,
+                    message: "Copies can not be a negative number",
                   },
                 }}
                 render={({ field }) => (

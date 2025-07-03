@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import DeleteAlertDialog from "./DeleteAlertDialog";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import BorrowModal from "../borrows/BorrowModal";
 
 const BooksTable = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const BooksTable = () => {
                     <button className="text-xl">⋯</button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-10 space-y-1">
-                    <Button className="w-full bg-green-400">Borrow</Button>
+                    <BorrowModal id={book._id} copies={book.copies} />
                     <Link className="flex" to={`/edit-book/${book._id}`}>
                       <Button className="w-full bg-yellow-400">Edit</Button>
                     </Link>
