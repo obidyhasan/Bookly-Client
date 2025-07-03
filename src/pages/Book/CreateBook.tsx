@@ -81,6 +81,7 @@ const CreateBook = () => {
               <FormField
                 control={form.control}
                 name="genre"
+                rules={{ required: "Genre is required" }}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Genre</FormLabel>
@@ -105,6 +106,7 @@ const CreateBook = () => {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
