@@ -157,12 +157,7 @@ const EditBook = () => {
                   <FormItem>
                     <FormLabel>ISBN</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        required
-                        {...field}
-                        placeholder="Enter ISBN"
-                      />
+                      <Input required {...field} placeholder="Enter ISBN" />
                     </FormControl>
                   </FormItem>
                 )}
