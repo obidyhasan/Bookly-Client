@@ -57,7 +57,7 @@ const BorrowModal = ({ id, copies }: PropsType) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="w-full bg-green-400">Borrow</Button>
+        <Button className="w-full ">Borrow</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

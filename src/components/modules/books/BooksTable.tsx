@@ -81,7 +81,9 @@ const BooksTable = () => {
                     <button className="text-xl">⋯</button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-10 space-y-1">
-                    <BorrowModal id={book._id} copies={book.copies} />
+                    <p>
+                      <BorrowModal id={book._id} copies={book.copies} />
+                    </p>
                     <Link className="flex" to={`/edit-book/${book._id}`}>
                       <Button className="w-full bg-yellow-400">Edit</Button>
                     </Link>
