@@ -1,3 +1,4 @@
+import Loading from "@/components/layouts/Loading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,33 +19,55 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateBookMutation } from "@/redux/api/bookApi";
+import {
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+} from "@/redux/api/bookApi";
 import { Loader2Icon } from "lucide-react";
+import { useEffect } from "react";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-const CreateBook = () => {
+const EditBook = () => {
+  const { id } = useParams();
+  const { data, isLoading } = useGetSingleBookQuery(id);
+  const [updateBook, { isLoading: updateIsLoading }] = useUpdateBookMutation();
+
   const form = useForm();
-  const [createTask, { isLoading }] = useCreateBookMutation();
-
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  useEffect(() => {
+    if (data?.data) {
+      form.reset({
+        title: data.data.title,
+        author: data.data.author,
+        genre: data.data.genre,
+        isbn: data.data.isbn,
+        copies: data.data.copies,
+        description: data.data.description,
+      });
+    }
+  }, [data, form]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const onSubmit: SubmitHandler<FieldValues> = async (newData) => {
     const bookData = {
-      ...data,
-      available: true,
-      copies: parseInt(data.copies),
+      ...newData,
+      _id: id,
+      copies: parseInt(newData.copies),
     };
 
-    await createTask(bookData).unwrap();
+    await updateBook(bookData).unwrap();
     navigate("/books", { replace: true });
-    form.reset();
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 my-10">
       <div className="max-w-md mx-auto">
-        <h1 className="font-semibold text-center text-2xl">Create Book</h1>
+        <h1 className="font-semibold text-center text-2xl">Edit Book</h1>
 
         <div className="mt-10">
           <Form {...form}>
@@ -81,7 +104,7 @@ const CreateBook = () => {
                     <FormLabel>Genre</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={data.data.genre}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a Genre" />
@@ -162,7 +185,7 @@ const CreateBook = () => {
                 )}
               />
               <div>
-                {isLoading ? (
+                {updateIsLoading ? (
                   <Button className="w-full mt-2" disabled>
                     <Loader2Icon className="animate-spin" />
                     Please wait...
@@ -181,4 +204,4 @@ const CreateBook = () => {
   );
 };
 
-export default CreateBook;
+export default EditBook;

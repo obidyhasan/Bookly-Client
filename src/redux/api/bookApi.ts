@@ -10,6 +10,9 @@ export const bookApi = createApi({
       query: () => "/books",
       providesTags: ["book"],
     }),
+    getSingleBook: builder.query({
+      query: (id) => `/books/${id}`,
+    }),
     createBook: builder.mutation({
       query: (bookData) => ({
         url: "/books",
@@ -18,7 +21,28 @@ export const bookApi = createApi({
       }),
       invalidatesTags: ["book"],
     }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/books/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["book"],
+    }),
+    updateBook: builder.mutation({
+      query: (updateDoc) => ({
+        url: `/books/${updateDoc._id}`,
+        method: "PUT",
+        body: updateDoc,
+      }),
+      invalidatesTags: ["book"],
+    }),
   }),
 });
 
-export const { useGetBooksQuery, useCreateBookMutation } = bookApi;
+export const {
+  useGetBooksQuery,
+  useCreateBookMutation,
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+  useUpdateBookMutation,
+} = bookApi;

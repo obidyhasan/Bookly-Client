@@ -11,11 +11,13 @@ import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { useGetBooksQuery } from "@/redux/api/bookApi";
+import { useDeleteBookMutation, useGetBooksQuery } from "@/redux/api/bookApi";
 import Loading from "@/components/layouts/Loading";
 import type { IBook } from "@/types/book";
+import { Button } from "@/components/ui/button";
+import DeleteAlertDialog from "./DeleteAlertDialog";
+import { Link } from "react-router";
 
 const BooksTable = () => {
   const { data, isLoading } = useGetBooksQuery(undefined, {
@@ -23,6 +25,8 @@ const BooksTable = () => {
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
   });
+
+  const [deleteBook] = useDeleteBookMutation();
 
   if (isLoading) {
     return <Loading />;
@@ -56,16 +60,17 @@ const BooksTable = () => {
                   <DropdownMenuTrigger asChild>
                     <button className="text-xl">⋯</button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem className="text-yellow-500">
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-green-500">
-                      Borrow
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-500">
-                      Delete
-                    </DropdownMenuItem>
+                  <DropdownMenuContent align="end" className="w-10 space-y-1">
+                    <Button className="w-full bg-green-400">Borrow</Button>
+                    <Link className="flex" to={`/edit-book/${book._id}`}>
+                      <Button className="w-full bg-yellow-400">Edit</Button>
+                    </Link>
+                    <DeleteAlertDialog
+                      onConfirm={() => deleteBook(book._id)}
+                      trigger={
+                        <Button className="w-full bg-red-400">Delete</Button>
+                      }
+                    />
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
